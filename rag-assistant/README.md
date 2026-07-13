@@ -1,5 +1,7 @@
 # P1 · 本地知识库 RAG 助手(详细版脚手架)
 
+![rag-assistant tests](https://github.com/gxucode/ai-portfolio/actions/workflows/tests.yml/badge.svg)
+
 一个完全跑在你本机(M4 Mac)的检索增强(RAG)问答应用:把文档丢进去,问问题,它基于文档回答并附引用来源。不调任何云端 API,模型和数据都在本地。
 
 ## 它到底在做什么(原理一分钟)

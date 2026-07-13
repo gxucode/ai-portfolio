@@ -1,0 +1,36 @@
+name: rag-assistant tests
+
+# 触发:推送到 ai-portfolio 且改动涉及 rag-assistant 时自动跑
+on:
+  push:
+    paths:
+      - 'rag-assistant/**'
+  pull_request:
+    paths:
+      - 'rag-assistant/**'
+
+# 允许手动触发(便于在 Actions 页面点一下验证)
+workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: rag-assistant
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install test dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements-tests.txt
+
+      - name: Run pytest (L1+L2 pass, L3 auto-skips without Ollama)
+        run: pytest -v

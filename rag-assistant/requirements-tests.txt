@@ -1,0 +1,7 @@
+# 测试最小依赖(供 CI / GitHub Actions 使用)
+# L1 配置冒烟:仅需 pytest(零外部依赖)
+# L2 分块集成:仅需 llama_index.core
+# L3 端到端:无 Ollama/无索引时自动 skip,不装重型依赖也能绿
+pytest
+llama-index-core
+chromadb
