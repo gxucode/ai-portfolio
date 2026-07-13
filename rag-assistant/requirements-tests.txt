@@ -2,6 +2,9 @@
 # L1 配置冒烟:仅需 pytest(零外部依赖)
 # L2 分块集成:仅需 llama_index.core
 # L3 端到端:无 Ollama/无索引时自动 skip,不装重型依赖也能绿
+#
+# ⚠️ 不要在这里放 chromadb:
+#   L1/L2 根本用不到它;而 chromadb 是重依赖,在 CI 上容易安装超时/失败,
+#   导致整个 run 变红。L3 e2e 在 chromadb 缺失时会被 pytest.skip 跳过,安全。
 pytest
 llama-index-core
-chromadb
