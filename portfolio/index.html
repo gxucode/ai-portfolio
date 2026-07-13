@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AI 应用开发者 · 作品集</title>
+<style>
+  :root{
+    --bg:#f6f7f9; --card:#ffffff; --ink:#1f2328; --muted:#5b6470;
+    --line:#e6e8eb; --accent:#4f46e5; --accent-soft:#eef2ff;
+    --green:#16a34a; --green-soft:#dcfce7;
+    --amber:#b45309; --amber-soft:#fef3c7;
+    --radius:14px; --shadow:0 1px 3px rgba(16,24,40,.06),0 6px 24px rgba(16,24,40,.05);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+    line-height:1.65; -webkit-font-smoothing:antialiased;
+  }
+  a{color:var(--accent); text-decoration:none}
+  a:hover{text-decoration:underline}
+  .wrap{max-width:980px; margin:0 auto; padding:0 20px}
+
+  /* Hero */
+  header.hero{
+    background:linear-gradient(135deg,#4f46e5 0%,#7c3aed 55%,#9333ea 100%);
+    color:#fff; padding:64px 0 72px;
+  }
+  .hero .wrap{display:flex; flex-direction:column; gap:10px}
+  .hero .tag{
+    display:inline-block; width:fit-content; font-size:13px; letter-spacing:.5px;
+    background:rgba(255,255,255,.16); padding:4px 12px; border-radius:999px;
+  }
+  .hero h1{margin:6px 0 0; font-size:34px; line-height:1.25; font-weight:800}
+  .hero p{margin:0; font-size:16px; opacity:.92; max-width:640px}
+  .hero .meta{display:flex; gap:18px; flex-wrap:wrap; margin-top:14px; font-size:14px; opacity:.9}
+  .hero .meta b{font-weight:700}
+
+  /* Section */
+  section{padding:42px 0}
+  .sec-title{font-size:13px; font-weight:700; letter-spacing:1px; color:var(--accent); text-transform:uppercase; margin:0 0 6px}
+  .sec-h{font-size:24px; font-weight:800; margin:0 0 8px}
+  .sec-sub{color:var(--muted); margin:0 0 24px; max-width:680px}
+
+  /* 四层地图 */
+  .map{display:grid; grid-template-columns:repeat(4,1fr); gap:14px}
+  .map .layer{
+    background:var(--card); border:1px solid var(--line); border-radius:var(--radius);
+    padding:16px; box-shadow:var(--shadow);
+  }
+  .map .layer .n{font-size:12px; color:var(--muted); font-weight:700}
+  .map .layer h4{margin:4px 0 6px; font-size:15px}
+  .map .layer p{margin:0; font-size:13px; color:var(--muted)}
+  .map .layer .st{margin-top:10px; font-size:12px; font-weight:700}
+  .st.live{color:var(--green)} .st.plan{color:var(--amber)}
+
+  /* 筛选 tabs */
+  .tabs{display:flex; gap:8px; margin-bottom:20px; flex-wrap:wrap}
+  .tab{
+    border:1px solid var(--line); background:var(--card); color:var(--muted);
+    padding:7px 16px; border-radius:999px; font-size:14px; cursor:pointer; font-weight:600;
+  }
+  .tab.active{background:var(--accent); border-color:var(--accent); color:#fff}
+
+  /* 产品卡片 */
+  .grid{display:grid; grid-template-columns:repeat(2,1fr); gap:18px}
+  .card{
+    background:var(--card); border:1px solid var(--line); border-radius:var(--radius);
+    padding:22px; box-shadow:var(--shadow); display:flex; flex-direction:column; gap:12px;
+  }
+  .card.plan{opacity:.92; border-style:dashed}
+  .card .top{display:flex; align-items:flex-start; justify-content:space-between; gap:10px}
+  .card h3{margin:0; font-size:18px}
+  .card .one{color:var(--muted); font-size:14px; margin:0}
+  .badge{font-size:12px; font-weight:700; padding:4px 10px; border-radius:999px; white-space:nowrap}
+  .badge.live{background:var(--green-soft); color:var(--green)}
+  .badge.plan{background:var(--amber-soft); color:var(--amber)}
+  .stack{display:flex; flex-wrap:wrap; gap:6px}
+  .chip{font-size:12px; background:var(--accent-soft); color:var(--accent); padding:3px 9px; border-radius:6px; font-weight:600}
+  .feat{margin:0; padding-left:18px; font-size:13.5px; color:#374151}
+  .feat li{margin:3px 0}
+  .run-toggle{
+    align-self:flex-start; font-size:13px; font-weight:600; color:var(--accent);
+    background:none; border:1px solid var(--accent); padding:6px 14px; border-radius:8px; cursor:pointer;
+  }
+  .run-toggle:hover{background:var(--accent-soft)}
+  pre.run{
+    display:none; background:#0f172a; color:#e2e8f0; padding:14px; border-radius:10px;
+    font-size:12.5px; overflow-x:auto; margin:4px 0 0; font-family:"SF Mono",Menlo,Consolas,monospace;
+  }
+  .card .links{display:flex; gap:14px; font-size:13px; font-weight:600; margin-top:auto}
+  .card .links a.disabled{color:#9aa3af; pointer-events:none}
+
+  /* 路线进度 */
+  .roadmap{display:flex; align-items:stretch; gap:0; flex-wrap:wrap}
+  .step{flex:1; min-width:160px; background:var(--card); border:1px solid var(--line); border-radius:var(--radius);
+    padding:16px; position:relative; box-shadow:var(--shadow)}
+  .step .dot{width:12px; height:12px; border-radius:50%; background:var(--green); margin-bottom:8px}
+  .step.plan .dot{background:var(--amber)}
+  .step h4{margin:0 0 4px; font-size:15px}
+  .step p{margin:0; font-size:13px; color:var(--muted)}
+  .step .when{font-size:12px; color:var(--accent); font-weight:700; margin-top:8px; display:block}
+
+  footer{padding:36px 0 56px; color:var(--muted); font-size:13px; border-top:1px solid var(--line); margin-top:20px}
+  footer .wrap{display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px}
+
+  @media (max-width:760px){
+    .map{grid-template-columns:repeat(2,1fr)}
+    .grid{grid-template-columns:1fr}
+    .hero h1{font-size:27px}
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <span class="tag">AI 应用开发者 · 作品集</span>
+    <h1>把大模型做成能跑、能讲清的东西</h1>
+    <p>开发者转型 AI 应用层。这里收录我亲手跑通、改写过的 AI 产品——从本机 RAG 到多工具 Agent，再到模型微调，全部可演示、可复盘方法论。</p>
+    <div class="meta">
+      <span>📍 <b>本机</b> Apple M4 / 16G</span>
+      <span>🧪 <b>免费算力</b> Colab T4 / Kaggle</span>
+      <span>🛠 <b>路线</b> RAG → Agent → 微调 → 作品集</span>
+    </div>
+  </div>
+</header>
+
+<!-- 方法论：四层能力地图 -->
+<section>
+  <div class="wrap">
+    <p class="sec-title">方法论</p>
+    <h2 class="sec-h">四层能力地图</h2>
+    <p class="sec-sub">来自我的《大模型应用开发方法论》：先判断要不要动模型权重，能用现成模型套壳解决就绝不训练。绝大多数价值出在应用层，作品集是把能力变成求职通行证。</p>
+    <div class="map">
+      <div class="layer">
+        <div class="n">① 应用层</div>
+        <h4>RAG 检索增强</h4>
+        <p>文档切块、向量化、混合检索、带引用生成、RAGAS 评估。</p>
+        <div class="st live">● 已完成 P1</div>
+      </div>
+      <div class="layer">
+        <div class="n">① 应用层</div>
+        <h4>Agent 智能体</h4>
+        <p>任务规划、工具编排、执行-观察-反思循环、失败兜底。</p>
+        <div class="st plan">○ 规划中 P2</div>
+      </div>
+      <div class="layer">
+        <div class="n">② 改造层</div>
+        <h4>微调 / 量化</h4>
+        <p>LoRA / QLoRA 适配场景，量化部署成低成本服务。</p>
+        <div class="st plan">○ 规划中 阶段二</div>
+      </div>
+      <div class="layer">
+        <div class="n">③ 作品集</div>
+        <h4>垂直产品</h4>
+        <p>把 RAG+Agent+微调组合成可演示的求职通行证。</p>
+        <div class="st live">● 进行中（本页）</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 产品集合 -->
+<section style="background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+  <div class="wrap">
+    <p class="sec-title">产品集合</p>
+    <h2 class="sec-h">我做过的 AI 产品</h2>
+    <p class="sec-sub">每个产品都能独立运行、讲清「为什么这么选」。点击卡片内按钮可展开运行方式。</p>
+
+    <div class="tabs" id="tabs">
+      <button class="tab active" data-f="all">全部</button>
+      <button class="tab" data-f="live">已上线</button>
+      <button class="tab" data-f="plan">规划中</button>
+    </div>
+
+    <div class="grid" id="grid">
+
+      <!-- 真实产品：rag-assistant -->
+      <div class="card" data-cat="live">
+        <div class="top">
+          <div>
+            <h3>本地知识库 RAG 助手</h3>
+            <p class="one">丢进文档 → 提问 → 基于文档回答并附引用来源</p>
+          </div>
+          <span class="badge live">✓ 已上线</span>
+        </div>
+        <div class="stack">
+          <span class="chip">LlamaIndex</span>
+          <span class="chip">Chroma</span>
+          <span class="chip">Streamlit</span>
+          <span class="chip">Ollama</span>
+          <span class="chip">100% 本地</span>
+          <span class="chip">pytest</span>
+          <span class="chip">RAGAS</span>
+        </div>
+        <ul class="feat">
+          <li>模型与数据全在本地，<b>零云端 API、隐私不出机</b></li>
+          <li>回答附可展开引用来源（含相似度分数）</li>
+          <li>可调分块 / 检索参数（CHUNK_SIZE、TOP_K）</li>
+          <li><b>三层测试</b>：pytest 冒烟/集成/端到端 + RAGAS 质量评估</li>
+        </ul>
+        <button class="run-toggle" onclick="toggleRun(this)">▶ 展开运行方式</button>
+        <pre class="run"># 1. 装本地模型运行时
+brew install ollama && ollama serve &
+ollama pull qwen2.5:1.5b
+ollama pull nomic-embed-text
+
+# 2. 装依赖 + 建索引 + 启动
+cd rag-assistant
+pip install -r requirements.txt
+python ingest.py
+streamlit run app.py        # 打开 http://localhost:8501</pre>
+        <div class="links">
+          <a href="../rag-assistant/README.md">📄 README</a>
+          <a href="../rag-assistant/TESTING.md">🧪 测试文档</a>
+          <a href="../rag-assistant/">📁 项目目录</a>
+        </div>
+      </div>
+
+      <!-- 规划中：P2 Agent -->
+      <div class="card plan" data-cat="plan">
+        <div class="top">
+          <div>
+            <h3>多工具 Agent（P2）</h3>
+            <p class="one">让模型自规划、调工具、看结果、再决策</p>
+          </div>
+          <span class="badge plan">○ 规划中</span>
+        </div>
+        <div class="stack">
+          <span class="chip">ReAct</span>
+          <span class="chip">Tool Calling</span>
+          <span class="chip">规划与反思</span>
+        </div>
+        <ul class="feat">
+          <li>目标拆解 + 工具输入输出契约定义</li>
+          <li>执行-观察-反思循环（Agent 核心）</li>
+          <li>失败兜底与人工接管，才能上线</li>
+          <li>市场增速最猛方向（+418%）</li>
+        </ul>
+        <div class="links">
+          <a class="disabled" href="#">📄 待开发</a>
+          <a class="disabled" href="#">📁 待开发</a>
+        </div>
+      </div>
+
+      <!-- 规划中：微调 -->
+      <div class="card plan" data-cat="plan">
+        <div class="top">
+          <div>
+            <h3>模型微调 / 量化（阶段二）</h3>
+            <p class="one">把通用模型适配到专属场景，压成低成本服务</p>
+          </div>
+          <span class="badge plan">○ 规划中</span>
+        </div>
+        <div class="stack">
+          <span class="chip">LoRA / QLoRA</span>
+          <span class="chip">Colab T4</span>
+          <span class="chip">量化部署</span>
+        </div>
+        <ul class="feat">
+          <li>先用 RAG 验证，确认必须才动权重</li>
+          <li>数据集质量 &gt; 数量（数据蒸馏 / 标注）</li>
+          <li>训练监控、防过拟合、早停</li>
+          <li>4-bit / INT8 量化后本地高并发部署</li>
+        </ul>
+        <div class="links">
+          <a class="disabled" href="#">📄 待开发</a>
+          <a class="disabled" href="#">📁 待开发</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- 路线进度 -->
+<section>
+  <div class="wrap">
+    <p class="sec-title">执行节奏</p>
+    <h2 class="sec-h">从开发者到 AI 应用开发者</h2>
+    <p class="sec-sub">不预训练大模型、不盲目追参数，先把 0.5B~3B 跑熟，每个方法都自己跑通一遍、改一遍。</p>
+    <div class="roadmap">
+      <div class="step">
+        <div class="dot"></div>
+        <h4>P1 · RAG 助手</h4>
+        <p>建立「我会做 AI 应用」的基本盘，本机 1~2 月。</p>
+        <span class="when">✓ 已完成</span>
+      </div>
+      <div class="step plan">
+        <div class="dot"></div>
+        <h4>P2 · Agent</h4>
+        <p>补齐工具编排与多步推理能力。</p>
+        <span class="when">计划下一步</span>
+      </div>
+      <div class="step plan">
+        <div class="dot"></div>
+        <h4>阶段二 · 微调</h4>
+        <p>Colab 补齐高薪的模型适配技能。</p>
+        <span class="when">1~2 月后</span>
+      </div>
+      <div class="step">
+        <div class="dot"></div>
+        <h4>阶段三 · 作品集</h4>
+        <p>组合成垂直领域产品 = 求职通行证。</p>
+        <span class="when">● 进行中</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 · AI 应用开发者作品集 · 本页由作品集项目自动托管</span>
+    <span>联系方式：<a href="#">GitHub</a> · <a href="#">Email</a>（占位，可自行替换）</span>
+  </div>
+</footer>
+
+<script>
+  function toggleRun(btn){
+    var pre = btn.nextElementSibling;
+    if(pre.style.display === 'block'){
+      pre.style.display = 'none';
+      btn.textContent = '▶ 展开运行方式';
+    } else {
+      pre.style.display = 'block';
+      btn.textContent = '▼ 收起运行方式';
+    }
+  }
+  document.getElementById('tabs').addEventListener('click', function(e){
+    var t = e.target.closest('.tab'); if(!t) return;
+    document.querySelectorAll('.tab').forEach(function(x){x.classList.remove('active')});
+    t.classList.add('active');
+    var f = t.dataset.f;
+    document.querySelectorAll('#grid .card').forEach(function(c){
+      c.style.display = (f==='all' || c.dataset.cat===f) ? '' : 'none';
+    });
+  });
+</script>
+</body>
+</html>

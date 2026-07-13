@@ -1,0 +1,11 @@
+# 核心依赖(RAG 必需)
+llama-index
+llama-index-llms-ollama
+llama-index-embeddings-ollama
+llama-index-vector-stores-chroma
+chromadb
+streamlit
+
+# 可选:评估(只有要跑 eval.py 时才需要)
+ragas
+datasets
